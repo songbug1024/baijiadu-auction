@@ -1,0 +1,52 @@
+{
+  "name": "baijiadu-platform-auction",
+  "version": "1.0.0",
+  "description": "百家渡平台拍卖模块",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slevp/baijiadu-platform-auction.git"
+  },
+  "keywords": [
+    "多肉植物、拍卖、微拍卖"
+  ],
+  "author": "百家渡团队",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/slevp/baijiadu-platform-auction/issues"
+  },
+  "homepage": "https://github.com/slevp/baijiadu-platform-auction#readme",
+  "dependencies": {
+    "angular2": "2.0.0-beta.2",
+    "es6-promise": "3.0.2",
+    "es6-shim": "0.33.13",
+    "ionic-framework": "2.0.0-alpha.54",
+    "ionicons": "3.0.0-alpha.3",
+    "ng2-file-upload": "^1.0.0-beta.0",
+    "ng2-image-lazy-load": "^1.0.3",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.0",
+    "zone.js": "0.5.10"
+  },
+  "devDependencies": {
+    "concurrently": "^1.0.0",
+    "lite-server": "^2.0.1",
+    "awesome-typescript-loader": "0.15.9",
+    "strip-sourcemap-loader": "0.0.1",
+    "typescript": "1.7.5"
+  },
+  "cordovaPlugins": [
+    "cordova-plugin-whitelist",
+    {
+      "locator": "https://github.com/VersoSolutions/CordovaClipboard",
+      "id": "com.verso.cordova.clipboard"
+    }
+  ],
+  "cordovaPlatforms": [
+    "ios",
+    "android"
+  ]
+}

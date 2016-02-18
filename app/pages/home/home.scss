@@ -1,0 +1,39 @@
+.auction-products {
+  .auction-product {
+    .item {
+      min-height: 2.8rem;
+    }
+  }
+  ion-card-content {
+    padding-bottom: 0;
+    .content {
+      text-overflow: ellipsis;
+      overflow : hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 8;
+      -webkit-box-orient: vertical;
+    }
+  }
+  ion-item {
+    [item-left],
+    [item-right] {
+      margin: 1px;
+    }
+  }
+  .opt3 ion-label,
+  .opt4 ion-label {
+    margin: 0;
+  }
+  .opt4 {
+    ion-label {
+      margin-bottom: 5px;
+    }
+    ion-row, ion-col {
+      padding: 0;
+    }
+    button {
+      width: 100%;
+    }
+  }
+}

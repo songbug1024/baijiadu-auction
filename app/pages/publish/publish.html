@@ -1,0 +1,115 @@
+<ion-toolbar>
+  <ion-buttons start>
+    <button dark (click)="dismiss()">取消</button>
+  </ion-buttons>
+
+  <ion-title>
+    发布拍品
+  </ion-title>
+  <ion-buttons end>
+    <button class="toolbar-btn" (click)="saveAsDraft()" [disabled]="product.uploadImages.length <= 0 && !product.content">存为草稿</button>
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content class="auction-publish outer-content">
+  <form #publishForm="ngForm" novalidate>
+    <ion-list>
+      <ion-list-header>拍品介绍</ion-list-header>
+
+      <ion-item>
+        <ion-textarea [(ngModel)]="product.content" ngControl="content" #content="ngForm" placeholder="拍品描述内容（20~2000）..." required minlength="20" maxlength="2000"></ion-textarea>
+      </ion-item>
+      <p [hidden]="content.valid || content.pristine" danger padding-left>当前描述有人可能看不懂哦</p>
+
+      <ion-item class="upload-images">
+        <ion-grid-img cells="4" [editable]="true" url-name="yasuo" preview-url-name="normal" [imgs]="product.uploadImages" (imgDeleted)="delUploadImage($event)"></ion-grid-img>
+        <button class="upload-btn" outline [disabled]="product.uploadImages && product.uploadImages.length >= 8">
+          <ion-icon name="add"></ion-icon>
+          <ion-uploader (itemAppend)="uploadImageAppended($event)" url="/upload-image" limit="8"></ion-uploader>
+        </button>
+        <small dark>（已上传 {{product.uploadImages.length}}/8 张照片）</small>
+      </ion-item>
+      <p [hidden]="!isSubmiting || product.uploadImages.length > 0" danger padding-left>至少需要上传一张图哦</p>
+
+      <ion-list-header>详细信息</ion-list-header>
+
+      <ion-item>
+        <ion-icon name="time" item-left></ion-icon>
+        <ion-label>截止时间</ion-label>
+        <ion-select [(ngModel)]="product.blockingTime" ngControl="blockingTime" #blockingTime="ngForm" okText="确定" cancelText="取消" [alertOptions]="blockingTimeAlertOptions" required>
+          <ion-option *ngFor="#opt of blockingTimeOptions" value="{{opt.key}}">{{opt.value}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <p [hidden]="!isSubmiting || blockingTime.valid" danger padding-left>截止时间不能为空哦</p>
+
+      <ion-item>
+        <ion-icon name="list" item-left></ion-icon>
+        <ion-label>分类</ion-label>
+        <ion-select [ngModel]="product.categoryId" (ngModelChange)="categoryChanged($event)" ngControl="categoryId" #categoryId="ngForm" okText="确定" cancelText="取消" [alertOptions]="categoryIdAlertOptions" required>
+          <ion-option value="{{cat.id}}" *ngFor="#cat of categories">{{cat.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <p [hidden]="!isSubmiting || categoryId.valid" danger padding-left>分类不能为空哦</p>
+
+      <ion-item [hidden]="!subCategories">
+        <ion-icon name="more" item-left></ion-icon>
+        <ion-label>详细分类（可选）</ion-label>
+        <ion-select [(ngModel)]="product.subCategoryId" okText="确定" cancelText="取消" [alertOptions]="subCategoryIdAlertOptions">
+          <ion-option value="{{subCat.id}}" *ngFor="#subCat of subCategories">{{subCat.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>起拍价</ion-label>
+        <ion-input [(ngModel)]="product.beginningPrice" ngControl="beginningPrice" type="number" #beginningPrice="ngForm" required placeholder="0"></ion-input>
+      </ion-item>
+      <p [hidden]="beginningPrice.valid || beginningPrice.pristine" danger padding-left>起拍价不能为空哦</p>
+
+      <ion-item>
+        <ion-label>加价幅度</ion-label>
+        <ion-input [(ngModel)]="product.increasePrice" ngControl="increasePrice" type="number" #increasePrice="ngForm" required placeholder="100"></ion-input>
+      </ion-item>
+      <p [hidden]="increasePrice.valid || increasePrice.pristine" danger padding-left>加价幅度不能为空哦</p>
+
+      <ion-list-header>可选设置</ion-list-header>
+
+      <ion-item>
+        <ion-label>7天包退</ion-label>
+        <ion-toggle primary [(ngModel)]="product.isFreeReturn"></ion-toggle>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>包邮</ion-label>
+        <ion-toggle secondary [(ngModel)]="product.isFreeDelivery"></ion-toggle>
+      </ion-item>
+
+      <ion-item [hidden]="product.isFreeDelivery">
+        <ion-label>邮费</ion-label>
+        <ion-input [(ngModel)]="product.deliveryPrice" ngControl="deliveryPrice" type="number" #deliveryPrice="ngForm" placeholder="10"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>保证金</ion-label>
+        <ion-input [(ngModel)]="product.guaranteePrice" ngControl="guaranteePrice" type="number" #guaranteePrice="ngForm" placeholder="0"></ion-input>
+      </ion-item>
+
+      <ion-list-header>其他高级设置</ion-list-header>
+
+      <ion-item>
+        <ion-label>一口价</ion-label>
+        <ion-input [(ngModel)]="product.dealPrice" ngControl="dealPrice" type="number" #dealPrice="ngForm" placeholder="0"></ion-input>
+      </ion-item>
+      <p dark padding-left>出价达到或超过此价格立即成交（无一口价请设0元）</p>
+
+      <ion-item>
+        <ion-label>参考价</ion-label>
+        <ion-input [(ngModel)]="product.referencePrice" ngControl="referencePrice" type="number" #referencePrice="ngForm" placeholder="0"></ion-input>
+      </ion-item>
+      <p dark padding-left>提供此拍品的参考价格（无参考价请设0元）</p>
+
+      <ion-item>
+        <button block secondary large type="submit" (click)="onSubmit()" [disabled]="!publishForm.form.valid">确认发布</button>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

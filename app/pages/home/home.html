@@ -1,0 +1,79 @@
+<ion-navbar *navbar>
+  <button menuToggle>
+    <ion-icon name="menu"></ion-icon>
+  </button>
+
+  <ion-segment [(ngModel)]="segment" (change)="updateSchedule()">
+    <ion-segment-button value="all">
+      All
+    </ion-segment-button>
+    <ion-segment-button value="favorites">
+      Favorites
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-buttons end>
+    <button (click)="presentFilter()">
+      <ion-icon ios="ios-funnel-outline" md="md-funnel"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-content class="auction-products">
+  <!--<ion-refresher (starting)="doStarting()"-->
+                 <!--(refresh)="doRefresh($event)"-->
+                 <!--(pulling)="doPulling($event)">-->
+  <!--</ion-refresher>-->
+
+  <ion-card class="auction-product" *ngFor="#p of products" (click)="showDetail(p)">
+    <ion-item>
+      <ion-avatar item-left>
+        <img class="avatar" src="{{p.owner.avatar}}">
+      </ion-avatar>
+      <h2>{{p.owner.username}}</h2>
+      <!--<p>November 5, 1955</p>-->
+    </ion-item>
+
+    <ion-card-content>
+      <p class="content">{{p.content}}</p>
+      <ion-grid-img cells="4" [editable]="false" url-name="yasuo" preview-url-name="normal" [imgs]="p.uploadImages"></ion-grid-img>
+    </ion-card-content>
+
+    <ion-item class="opt1">
+      <button primary small [hidden]="!p.isFreeReturn" item-right>包退</button>
+      <button secondary small item-right>{{p.isFreeDelivery ? '包邮' : '邮费' + p.deliveryPrice}}</button>
+      <button clear dark item-right>{{p.created | str2date | date: "MMdd"}}</button>
+
+      <button clear dark item-left>
+        <ion-icon name="flame"></ion-icon>
+        <div>{{p.viewersNum}}</div>
+      </button>
+      <button clear dark item-left>
+        <ion-icon name="heart-outline"></ion-icon>
+        <div>{{p.followersNum}}</div>
+      </button>
+      <button clear dark item-left>
+        <ion-icon name="share"></ion-icon>
+        <div>分享</div>
+      </button>
+    </ion-item>
+    <ion-item class="opt2">
+      <button danger item-left>正在拍卖</button>
+      <button clear dark item-right>距离结束：2时34分47</button>
+    </ion-item>
+    <ion-item class="opt3">
+      <button secondary block>出价</button>
+    </ion-item>
+    <ion-item class="opt4">
+      <ion-row center>
+        <ion-col><button small clear dark>起：￥{{p.beginningPrice}}元</button></ion-col>
+        <ion-col><button small clear dark>加：￥{{p.increasePrice}}元</button></ion-col>
+        <ion-col><button small clear dark>保：￥{{p.guaranteePrice}}元</button></ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-card>
+
+  <ion-list-header [hidden]="products.length > 0">
+    无拍卖数据
+  </ion-list-header>
+</ion-content>

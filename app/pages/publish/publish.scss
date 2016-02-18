@@ -1,0 +1,21 @@
+.auction-publish {
+  .upload-images {
+    .upload-btn {
+      width: 64px;
+      height: 64px;
+      ion-icon[name="add"] {
+        font-size: 32px;
+        padding-right: 0;
+      }
+    }
+  }
+  ion-label {
+    color: #7f7f7f;
+  }
+  textarea {
+    height: 108px;
+  }
+}
+.toolbar-btn[disabled] {
+  color: #D0D0D0;
+}
