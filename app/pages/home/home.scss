@@ -1,8 +1,6 @@
-.auction-products {
-  .auction-product {
-    .item {
-      min-height: 2.8rem;
-    }
+.auction-product {
+  .item {
+    min-height: 2.8rem;
   }
   ion-card-content {
     padding-bottom: 0;
@@ -13,12 +11,23 @@
       display: -webkit-box;
       -webkit-line-clamp: 8;
       -webkit-box-orient: vertical;
+      min-height: 2.5em;
+      &.detail {
+        -webkit-line-clamp: 99999;
+      }
     }
   }
-  ion-item {
+  .opt1,
+  .opt2 {
     [item-left],
     [item-right] {
-      margin: 1px;
+      margin: 1px 2px;
+    }
+  }
+  .opt3 {
+    ion-row,
+    ion-col {
+      padding: 0 2px;
     }
   }
   .opt3 ion-label,
@@ -26,14 +35,41 @@
     margin: 0;
   }
   .opt4 {
+    //max-height: 1.5rem;
     ion-label {
       margin-bottom: 5px;
     }
     ion-row, ion-col {
       padding: 0;
+      margin: 0;
+    }
+    ion-row.r1 ion-col {
+      border-bottom: 1px solid #F5F5F5;
     }
     button {
-      width: 100%;
+      line-height: 1.2em;
+      margin: 2px 0;
+    }
+  }
+  .opt5 {
+    margin-top: 0;
+    background-color: #F5F5F5;
+    ion-item, ion-list-header {
+      background-color: inherit;
+    }
+    ion-list-header {
+      border-bottom: none;
+    }
+    ion-label {
+      margin-top: 5px;
+      margin-bottom: 5px;
+      h2 {
+        font-size: 1.4rem;
+      }
+      h3 {
+        line-height: 1.6em;
+        font-weight: bold;
+      }
     }
   }
 }

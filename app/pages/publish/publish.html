@@ -34,7 +34,7 @@
       <ion-list-header>详细信息</ion-list-header>
 
       <ion-item>
-        <ion-icon name="time" item-left></ion-icon>
+        <ion-icon ios="ios-time-outline" md="md-time" item-left></ion-icon>
         <ion-label>截止时间</ion-label>
         <ion-select [(ngModel)]="product.blockingTime" ngControl="blockingTime" #blockingTime="ngForm" okText="确定" cancelText="取消" [alertOptions]="blockingTimeAlertOptions" required>
           <ion-option *ngFor="#opt of blockingTimeOptions" value="{{opt.key}}">{{opt.value}}</ion-option>

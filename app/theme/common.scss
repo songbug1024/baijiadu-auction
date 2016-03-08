@@ -1,0 +1,12 @@
+.bg-center-img {
+  margin: 0 auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 1px;
+  &.V {
+    background-size: 100% auto;
+  }
+  &.H {
+    background-size: auto 100%;
+  }
+}

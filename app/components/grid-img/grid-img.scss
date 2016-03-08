@@ -1,18 +1,11 @@
-.grid-img {
+ion-grid-img {
   .del-btn {
     float: right;
     transform: translate(60%,-60%);
     -webkit-transform: translate(60%,-60%);
   }
-  .grid-bg-item {
-    width: 72px;
-    height: 72px;
-    background-position: center;
-    &.V {
-      background-size: 100% auto;
-    }
-    &.H {
-      background-size: auto 100%;
-    }
+  .bg-center-img {
+    height: 64px;
+    min-width: 64px;
   }
 }

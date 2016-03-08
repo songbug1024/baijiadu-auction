@@ -1,0 +1,21 @@
+<ion-navbar *navbar>
+  <ion-buttons start>
+    <button dark (click)="dismiss()">取消</button>
+  </ion-buttons>
+  <ion-title>编辑个性签名</ion-title>
+</ion-navbar>
+
+<ion-content class="user-info-edit">
+  <form #editForm="ngForm" novalidate>
+    <ion-list no-lines>
+      <ion-item>
+        <ion-label floating>个性签名（6~200）</ion-label>
+        <ion-textarea [(ngModel)]="autograph" ngControl="control" #control="ngForm" required minlength="6" maxlength="200"></ion-textarea>
+      </ion-item>
+      <p [hidden]="control.valid || control.pristine" danger padding-left>数据格式不正确</p>
+      <ion-item>
+        <button block large type="submit" (click)="dismiss(autograph)" [disabled]="!editForm.form.valid">保存</button>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

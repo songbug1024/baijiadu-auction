@@ -1,0 +1,29 @@
+@import "user-info";
+
+.auction-my-navbar {
+  ion-avatar {
+    //position: absolute;
+  }
+}
+.auction-my {
+  .order-status {
+    padding: 0;
+    margin: 0;
+    .tab-button {
+      min-width: inherit;
+      padding: 0;
+    }
+    .tab-button-icon {
+      font-size: 24px;
+      height: auto;
+    }
+  }
+  ion-item-divider {
+    min-height: inherit;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  .products-modes {
+    margin-top: 0;
+  }
+}

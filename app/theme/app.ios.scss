@@ -29,3 +29,13 @@
 // App iOS Only Sass
 // --------------------------------------------------
 // CSS that should only apply to the iOS app
+
+.auction-orders {
+  .status-segments {
+    margin: 12px;
+    .segment-button {
+      min-height: 2.4rem;
+      line-height: 2.4rem;
+    }
+  }
+}

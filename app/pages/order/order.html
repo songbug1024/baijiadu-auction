@@ -1,0 +1,66 @@
+<ion-navbar *navbar>
+  <ion-title>订单中心</ion-title>
+  <ion-buttons end>
+    <button>
+      <ion-icon name="search"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+
+<ion-content class="auction-orders">
+  <div class="status-segments">
+    <ion-segment [(ngModel)]="statusMode">
+      <ion-segment-button value="all" (select)="switchStatusMode('all')">
+        全部
+      </ion-segment-button>
+      <ion-segment-button value="initial" (select)="switchStatusMode('initial')">
+        未完成
+      </ion-segment-button>
+      <ion-segment-button value="non-payment" (select)="switchStatusMode('non-payment')">
+        未付款
+      </ion-segment-button>
+      <ion-segment-button value="non-delivery" (select)="switchStatusMode('non-delivery')">
+        待发货
+      </ion-segment-button>
+      <ion-segment-button value="non-receiving" (select)="switchStatusMode('non-receiving')">
+        待收货
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+  <ion-card *ngFor="#o of orders" (click)="showDetail(o)">
+    <ion-item class="header">
+      <button clear dark item-left>
+        <ion-icon ios="ios-person-outline" md="md-person"></ion-icon>
+        <template [ngIf]="roleMode === 'buyer'">
+          {{o._sellerInfo?.username}}
+        </template>
+        <template [ngIf]="roleMode === 'seller'">
+          {{o._buyerInfo?.username}}
+        </template>
+      </button>
+      <button clear danger item-right [hidden]="statusMode !== 'all' || o.status !== 'initial'">未完成 <ion-icon ios="ios-create-outline" md="md-create"></ion-icon></button>
+      <button clear danger item-right [hidden]="statusMode !== 'all' || o.status !== 'non-payment'">未付款 <ion-icon ios="ios-card-outline" md="md-card"></ion-icon></button>
+      <button clear danger item-right [hidden]="statusMode !== 'all' || o.status !== 'non-delivery'">待发货 <ion-icon ios="ios-time-outline" md="md-time"></ion-icon></button>
+      <button clear danger item-right [hidden]="statusMode !== 'all' || o.status !== 'non-receiving'">待收货 <ion-icon ios="ios-plane-outline" md="md-plane"></ion-icon></button>
+      <button clear secondary item-right [hidden]="statusMode !== 'all' || o.status !== 'success'">交易成功 <ion-icon ios="ios-done-all-outline" md="md-done-all"></ion-icon></button>
+      <button clear danger item-right [hidden]="statusMode !== 'all' || o.status !== 'after-sale'">售后中 <ion-icon ios="ios-hand-outline" md="md-hand"></ion-icon></button>
+      <button clear gray item-right [hidden]="statusMode !== 'all' || o.status !== 'failed'">交易失败 <ion-icon ios="ios-call-outline" md="md-call"></ion-icon></button>
+    </ion-item>
+
+    <ion-item class="content">
+      <ion-thumbnail item-left class="bg-center-img {{o._productInfo?.previewImage?.orientation}}" [ngStyle]="{ 'background-image': 'url(' + o._productInfo?.previewImage?.yasuo + ')' }">
+      </ion-thumbnail>
+      <h2>{{o._productInfo?.title}}</h2>
+      <p dark>￥{{o.price}}</p>
+      <p>
+        <button primary small [hidden]="!o._productInfo.isFreeReturn">包退</button>
+        <button secondary small>{{o._productInfo.deliveryPrice ? '邮费' + o._productInfo.deliveryPrice : '包邮'}}</button>
+        <button clear small gray>{{o.created | str2date | date: "MM/dd HH:mm"}}</button>
+      </p>
+    </ion-item>
+  </ion-card>
+  <button block clear small dark [hidden]="noMore || loading" (click)="queryOrders()">加载更多</button>
+  <ion-list-header [hidden]="orders.length > 0 || loading">
+    无订单数据
+  </ion-list-header>
+</ion-content>

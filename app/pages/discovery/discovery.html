@@ -1,3 +1,28 @@
+<ion-navbar *navbar>
+    <ion-title>发现</ion-title>
+    <!--<ion-searchbar></ion-searchbar>-->
+</ion-navbar>
 <ion-content class="auction-discovery">
-
+    <ion-list>
+        <button ion-item>
+            <ion-icon ios="ios-hammer-outline" md="md-hammer" item-left></ion-icon>
+            新品开拍
+            <ion-badge item-right danger>10+</ion-badge>
+        </button>
+        <ion-item-divider light></ion-item-divider>
+        <button ion-item>
+            <ion-icon ios="ios-timer-outline" md="md-timer" item-left></ion-icon>
+            秒拍
+        </button>
+        <button ion-item>
+            <ion-icon ios="ios-flash-outline" md="md-flash" item-left></ion-icon>
+            1元拍
+        </button>
+        <ion-item-divider light></ion-item-divider>
+        <button ion-item>
+            <ion-icon ios="ios-notifications-outline" md="md-notifications" item-left></ion-icon>
+            消息中心
+            <ion-badge item-right danger>3</ion-badge>
+        </button>
+    </ion-list>
 </ion-content>

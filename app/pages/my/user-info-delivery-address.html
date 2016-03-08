@@ -1,0 +1,36 @@
+<ion-navbar *navbar>
+  <ion-buttons start>
+    <button dark (click)="dismiss()">取消</button>
+  </ion-buttons>
+  <ion-title>{{deliveryAddress && deliveryAddress.id ? '编辑' : '增加'}}收货地址</ion-title>
+</ion-navbar>
+
+<ion-content class="user-info-edit">
+  <form #editForm="ngForm" novalidate>
+    <ion-list>
+      <ion-item>
+        <ion-label floating>联系人</ion-label>
+        <ion-input [(ngModel)]="deliveryAddress.username" ngControl="username" #username="ngForm" type="text" required minlength="2" maxlength="20"></ion-input>
+      </ion-item>
+      <p [hidden]="username.valid || username.pristine" danger padding-left>名字可能看不懂哦</p>
+      <ion-item>
+        <ion-label floating>手机号码</ion-label>
+        <ion-input [(ngModel)]="deliveryAddress.tel" ngControl="tel" #tel="ngForm" type="tel" required minlength="11" maxlength="11"></ion-input>
+      </ion-item>
+      <p [hidden]="tel.valid || tel.pristine" danger padding-left>手机号码很重要哦</p>
+      <ion-item>
+        <ion-label floating>详细地址</ion-label>
+        <ion-textarea [(ngModel)]="deliveryAddress.detailAddress" ngControl="detailAddress" #detailAddress="ngForm" required minlength="6" maxlength="100"></ion-textarea>
+      </ion-item>
+      <p [hidden]="detailAddress.valid || detailAddress.pristine" danger padding-left>地址格式不对哦</p>
+      <ion-item>
+        <ion-label floating>邮编（可选）</ion-label>
+        <ion-input [(ngModel)]="deliveryAddress.zip" ngControl="zip" #zip="ngForm" type="number" minlength="6" maxlength="6"></ion-input>
+      </ion-item>
+      <p [hidden]="zip.valid || zip.pristine" danger padding-left>邮编是6位数字哦</p>
+      <ion-item>
+        <button block large type="submit" (click)="dismiss(deliveryAddress)" [disabled]="!editForm.form.valid">保存</button>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

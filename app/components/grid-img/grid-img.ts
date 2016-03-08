@@ -1,19 +1,20 @@
 import {Component, Input, Output, EventEmitter, OnInit} from 'angular2/core';
-import {Page, Modal, ViewController, NavController, NavParams} from 'ionic-framework/ionic';
-import {IONIC_DIRECTIVES} from 'ionic-framework/ionic';
+import {Page, Modal, ViewController, NavController, NavParams, IONIC_DIRECTIVES} from 'ionic-framework/ionic';
 
 @Component({
   selector: 'ion-grid-img',
   template: `
-    <ion-row class="grid-img" *ngFor="#fuck of imgs, #i=index" [hidden]="!(i % cells === 0)">
-      <ion-col center width-25 *ngFor="#cell of imgs, #j=index" [hidden]="!(j >= i && j < i + cells)">
-        <div class="grid-bg-item {{cell[orientationName]}}" [ngStyle]="{ 'background-image': 'url(' + cell[urlName] + ')' }" (click)="previewImg(cell)">
-          <button *ngIf="editable" clear dark class="del-btn" (click)="delImg(cell)">
-            <ion-icon name="close-circle"></ion-icon>
-          </button>
-        </div>
-      </ion-col>
-    </ion-row>
+    <template ngFor [ngForOf]="imgs" #i="index">
+      <ion-row *ngIf="(i % cells === 0)">
+        <template ngFor #cell [ngForOf]="imgs" #j="index">
+          <ion-col center width-25 *ngIf="j >= i && j < i + cells">
+            <ion-icon gray class="del-btn" name="close-circle" *ngIf="editable" (click)="delImg(cell)"></ion-icon>
+            <div class="bg-center-img {{cell[orientationName]}}" [ngStyle]="{ 'background-image': 'url(' + cell[urlName] + ')' }" (click)="previewImg(cell)">
+            </div>
+          </ion-col>
+        </template>
+      </ion-row>
+    </template>
   `,
   directives: [IONIC_DIRECTIVES]
 })
@@ -21,7 +22,7 @@ export class GridImg implements OnInit {
   @Input() imgs: Array<any> = [];
   @Input('orientation-name') orientationName: string = 'orientation';
   @Input('url-name') urlName: string = 'url';
-  @Input('preview-url-name') previewUrlName: string = 'url';
+  @Input('preview-url-name') previewUrlName: string = this.urlName;
 
   @Input() cells: number = 3;
   @Input() editable: boolean = false;

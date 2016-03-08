@@ -49,8 +49,7 @@ export class CategoryService {
         });
 
         return noParentCats;
-      })
-      .do(data => console.log('getAllCategories', data));
+      });
   }
 
   private handleError (error: Response) {

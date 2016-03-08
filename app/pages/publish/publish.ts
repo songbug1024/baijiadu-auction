@@ -1,9 +1,8 @@
-import {Page, ViewController, Alert, NavController, Modal, Storage, LocalStorage} from 'ionic-framework/ionic';
+import {Page, ViewController, Alert, NavController, Modal} from 'ionic-framework/ionic';
 import {Uploader} from '../../components/uploader/uploader';
 import {CategoryService} from '../../providers/category/category.service'
 import {ProductService} from '../../providers/product/product.service'
 import {Category} from '../../providers/category/category'
-import {Product} from '../../providers/product/product'
 import {GridImg} from '../../components/grid-img/grid-img'
 
 declare var Auction;
@@ -14,8 +13,8 @@ declare var Auction;
 })
 export class PublishPage {
   private product: any;
-  private categories: Array<Category>;
-  private subCategories: Array<Category>;
+  private categories: Array<Category> = [];
+  private subCategories: Array<Category> = [];
   private blockingTimeAlertOptions = {
     title: '截止时间',
     subTitle: '请选择拍品的截止时间'
@@ -29,9 +28,7 @@ export class PublishPage {
     subTitle: '请选择拍品的详细分类信息'
   };
   private blockingTimeOptions: Array<{key: Date, value: string}> = [];
-  private errorMessage: any;
   private isSubmiting: boolean = false;
-  private localStorage: Storage = new Storage(LocalStorage);
 
   constructor(
     private viewCtrl: ViewController,
@@ -44,15 +41,13 @@ export class PublishPage {
       isFreeDelivery: true,
       ownerId: Auction.__currentUser.id
     };
-
+  }
+  onPageDidEnter() {
     this.__resetBlockingTimeOptions();
 
-    this.localStorage.getJson('categories')
-      .then(categories => {
-        categories = categories && JSON.parse(categories);
-        if (categories && categories.length > 0) this.categories = categories;
-        else this.__getCategories();
-      });
+    let categories = Auction.__allCategories;
+    if (categories && categories.length > 0) this.categories = categories;
+    else this.__getCategories();
   }
   dismiss(data) {
     let confirm = Alert.create({
@@ -103,18 +98,16 @@ export class PublishPage {
     this.product.uploadImages = temp;
   }
   onSubmit() {
-    console.log('onSubmit', this.product);
     this.isSubmiting = true;
     if (this.product.uploadImages.length <= 0) return;
 
-    this.product.status = 'coming'; // 即将开拍
+    this.product.status = 'online'; // 即将开拍
     this.productService.addProduct(this.product)
       .subscribe(
         product  => {
-          console.log(product);
           this.viewCtrl.dismiss(product);
         },
-        error =>  this.errorMessage = <any>error);
+        error => console.error(error));
   }
   confirmDraft() {
     let confirm = Alert.create({
@@ -144,26 +137,26 @@ export class PublishPage {
         product  => {
           this.confirmDraft();
         },
-        error =>  this.errorMessage = <any>error);
+        error => console.error(error));
   }
   __getCategories() {
     this.categoryService.getAllCategories().subscribe(
       categories => {
         this.categories = categories;
-        this.localStorage.setJson('categories', categories);
+        Auction.__allCategories = categories;
       },
-      error => this.errorMessage = <any> error);
+      error => console.error(error));
   }
   __resetBlockingTimeOptions() {
     let now = new Date();
-    let parts = [10, 12, 14, 16, 18, 19, 20, 21, 22, 23];
+    let parts = [6, 7, 8, 9, 10, 11, 12, 14, 16, 18, 19, 20, 21, 22, 23];
     let hours = now.getHours() + 1;
     let isFirstPart = false;
     this.blockingTimeOptions = [];
 
     // 当天
     for (let p of parts) {
-      if (hours < p) {
+      if (hours <= p) {
         let opt = (now.getMonth() + 1) + '月' + now.getDate() + '日';
         if (!isFirstPart) {
           isFirstPart = true;
@@ -173,7 +166,7 @@ export class PublishPage {
         }
         opt += (p + ':00');
         this.blockingTimeOptions.push({
-          key: new Date(now.getFullYear(), now.getMonth(), now.getDate(), p - 1, 0, 0),
+          key: new Date(now.getFullYear(), now.getMonth(), now.getDate(), p, 0, 0),
           value: opt
         });
       }
@@ -192,7 +185,7 @@ export class PublishPage {
         }
         opt += (p + ':00');
         this.blockingTimeOptions.push({
-          key: new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), p - 1, 0, 0),
+          key: new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), p, 0, 0),
           value: opt
         });
       } else {

@@ -1,0 +1,21 @@
+<ion-navbar *navbar>
+  <ion-buttons start>
+    <button dark (click)="dismiss()">取消</button>
+  </ion-buttons>
+  <ion-title>编辑真实姓名</ion-title>
+</ion-navbar>
+
+<ion-content class="user-info-edit">
+  <form #editForm="ngForm" novalidate>
+    <ion-list no-lines>
+      <ion-item>
+        <ion-label floating>真实姓名</ion-label>
+        <ion-input [(ngModel)]="realname" ngControl="control" #control="ngForm" required minlength="2" maxlength="20"></ion-input>
+      </ion-item>
+      <p [hidden]="control.valid || control.pristine" danger padding-left>名字可能看不懂哦</p>
+      <ion-item>
+        <button block large type="submit" (click)="dismiss(realname)" [disabled]="!editForm.form.valid">保存</button>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

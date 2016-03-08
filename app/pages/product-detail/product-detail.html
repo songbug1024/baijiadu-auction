@@ -1,0 +1,15 @@
+<ion-navbar *navbar>
+  <ion-title>拍品详情</ion-title>
+</ion-navbar>
+
+<ion-content>
+  <auction-product-item [product]="product" [nowInterval]="nowInterval" [productService]="productService" [isDetail]="true"></auction-product-item>
+  <ion-card>
+    <ion-card-header text-center>
+      ─&nbsp;&nbsp;其他拍品&nbsp;&nbsp;─
+    </ion-card-header>
+    <ion-card-content>
+      <user-product-grid [products]="ownerProducts" (detail)="showOwnerProductDetail($event)"></user-product-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

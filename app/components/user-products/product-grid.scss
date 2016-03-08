@@ -1,0 +1,29 @@
+user-product-grid {
+  .bg-center-img {
+    height: 105px;
+  }
+  .item {
+    min-height: 2rem;
+    padding-left: 0;
+    .item-inner {
+      padding-right: 0;
+    }
+  }
+  ion-label {
+    margin: 0;
+  }
+  button[item-left],
+  button[item-right] {
+    margin: 0;
+  }
+  .title {
+    text-overflow: ellipsis;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    min-height: 2.5em;
+    padding: 2px 5px;
+  }
+}

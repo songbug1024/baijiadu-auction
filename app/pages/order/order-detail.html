@@ -1,0 +1,39 @@
+<ion-navbar *navbar>
+  <ion-title>订单详细</ion-title>
+</ion-navbar>
+
+<ion-content class="auction-orders">
+
+  <ion-card>
+    <ion-item class="header">
+      <button clear dark item-left>
+        <ion-icon ios="ios-person-outline" md="md-person"></ion-icon>
+        <template [ngIf]="roleMode === 'buyer'">
+          {{order._sellerInfo?.username}}
+        </template>
+        <template [ngIf]="roleMode === 'seller'">
+          {{order._buyerInfo?.username}}
+        </template>
+      </button>
+      <button clear danger item-right [hidden]="statusMode !== 'all' || order.status !== 'initial'">未完成 <ion-icon ios="ios-create-outline" md="md-create"></ion-icon></button>
+      <button clear danger item-right [hidden]="statusMode !== 'all' || order.status !== 'non-payment'">未付款 <ion-icon ios="ios-card-outline" md="md-card"></ion-icon></button>
+      <button clear danger item-right [hidden]="statusMode !== 'all' || order.status !== 'non-delivery'">待发货 <ion-icon ios="ios-time-outline" md="md-time"></ion-icon></button>
+      <button clear danger item-right [hidden]="statusMode !== 'all' || order.status !== 'non-receiving'">待收货 <ion-icon ios="ios-plane-outline" md="md-plane"></ion-icon></button>
+      <button clear secondary item-right [hidden]="statusMode !== 'all' || order.status !== 'success'">交易成功 <ion-icon ios="ios-done-all-outline" md="md-done-all"></ion-icon></button>
+      <button clear danger item-right [hidden]="statusMode !== 'all' || order.status !== 'after-sale'">售后中 <ion-icon ios="ios-hand-outline" md="md-hand"></ion-icon></button>
+      <button clear gray item-right [hidden]="statusMode !== 'all' || order.status !== 'failed'">交易失败 <ion-icon ios="ios-call-outline" md="md-call"></ion-icon></button>
+    </ion-item>
+
+    <ion-item class="content">
+      <ion-thumbnail item-left class="bg-center-img {{order._productInfo?.previewImage?.orientation}}" [ngStyle]="{ 'background-image': 'url(' + order._productInfo?.previewImage?.yasuo + ')' }">
+      </ion-thumbnail>
+      <h2>{{order._productInfo?.title}}</h2>
+      <p dark>￥{{order.price}}</p>
+      <p>
+        <button primary small [hidden]="!order._productInfo.isFreeReturn">包退</button>
+        <button secondary small>{{order._productInfo.deliveryPrice ? '邮费' + order._productInfo.deliveryPrice : '包邮'}}</button>
+        <button clear small gray>{{order.created | str2date | date: "MM/dd HH:mm"}}</button>
+      </p>
+    </ion-item>
+  </ion-card>
+</ion-content>

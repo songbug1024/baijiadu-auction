@@ -1,3 +1,92 @@
+<ion-navbar *navbar class="auction-my-navbar">
+  <ion-buttons end>
+    <button (click)="showUserInfo()">
+      <ion-icon name="settings"></ion-icon>
+    </button>
+  </ion-buttons>
+  <!--<ion-item class="user-info">-->
+    <!--<ion-avatar item-left>-->
+      <!--<img [src]="currentUser.avatar">-->
+    <!--</ion-avatar>-->
+    <!--<h2>{{currentUser.username}}</h2>-->
+    <!--<p>{{currentUser.location}}</p>-->
+  <!--</ion-item>-->
+  <ion-segment [(ngModel)]="roleMode">
+    <ion-segment-button value="buyer" (select)="showBuyerRole()">
+      <ion-icon name="cart"></ion-icon>
+      买买买
+    </ion-segment-button>
+    <ion-segment-button value="seller" (select)="showSellerRole()">
+      <ion-icon name="basket"></ion-icon>
+      卖卖卖
+    </ion-segment-button>
+  </ion-segment>
+</ion-navbar>
 <ion-content class="auction-my">
-
+  <a ion-item (click)="showOrderListPage('all')">
+    全部订单
+    <ion-note item-right>共拍中了 {{user.orderCount}} 单</ion-note>
+  </a>
+  <ion-row class="order-status">
+    <ion-col>
+      <a clear tabcolor block class="tab-button has-title has-icon" (click)="showOrderListPage('initial')">
+        <ion-icon ios="ios-create-outline" md="md-create" class="tab-button-icon"></ion-icon>
+        <span class="tab-button-text">未完成</span>
+      </a>
+    </ion-col>
+    <ion-col>
+      <a clear tabcolor block class="tab-button has-title has-icon" (click)="showOrderListPage('non-payment')">
+        <ion-icon ios="ios-card-outline" md="md-card" class="tab-button-icon"></ion-icon>
+        <span class="tab-button-text">未付款</span>
+      </a>
+    </ion-col>
+    <ion-col>
+      <a clear tabcolor block class="tab-button has-title has-icon" (click)="showOrderListPage('non-delivery')">
+        <ion-icon ios="ios-time-outline" md="md-time" class="tab-button-icon"></ion-icon>
+        <span class="tab-button-text">待发货</span>
+      </a>
+    </ion-col>
+    <ion-col>
+      <a clear tabcolor block class="tab-button has-title has-icon" (click)="showOrderListPage('non-receiving')">
+        <ion-icon ios="ios-plane-outline" md="md-plane" class="tab-button-icon"></ion-icon>
+        <span class="tab-button-text">待收货</span>
+      </a>
+    </ion-col>
+    <ion-col>
+      <a clear tabcolor block class="tab-button has-title has-icon" disabled>
+        <ion-icon ios="ios-hand-outline" md="md-hand" class="tab-button-icon"></ion-icon>
+        <span class="tab-button-text">售后</span>
+      </a>
+    </ion-col>
+  </ion-row>
+  <ion-item-divider light></ion-item-divider>
+  <button ion-item>
+    <ion-icon ios="ios-person-outline" md="md-person" item-left></ion-icon>
+    余额
+    <ion-note item-right>￥0.00</ion-note>
+  </button>
+  <button ion-item>
+    <ion-icon ios="ios-notifications-outline" md="md-notifications" item-left></ion-icon>
+    消息中心
+    <ion-badge item-right danger [hidden]="!user.messageCount">{{user.messageCount}}</ion-badge>
+  </button>
+  <ion-item-divider light></ion-item-divider>
+  <div class="toolbar">
+    <ion-segment [(ngModel)]="productsMode">
+      <ion-segment-button value="attended">
+        参与过的
+      </ion-segment-button>
+      <ion-segment-button value="followed">
+        喜欢的
+      </ion-segment-button>
+      <ion-segment-button value="viewed">
+        浏览过的
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+  <ion-card class="products-modes">
+    <user-product-grid [hidden]="productsMode !== 'attended'" [products]="user._attendedProducts" (detail)="showProductDetail($event)"></user-product-grid>
+    <user-product-grid [hidden]="productsMode !== 'followed'" [products]="user._followedProducts" (detail)="showProductDetail($event)"></user-product-grid>
+    <user-product-grid [hidden]="productsMode !== 'viewed'" [products]="user._viewedProducts" (detail)="showProductDetail($event)"></user-product-grid>
+  </ion-card>
 </ion-content>

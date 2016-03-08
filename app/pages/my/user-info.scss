@@ -1,0 +1,41 @@
+.user-info {
+  .user-head {
+    background: -webkit-gradient(linear, left top, left bottom, from(#3474e1), to(#92C0E1));
+    padding: 1em;
+    .avatar {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+      background-color: #FFFFFF;
+      padding: 3px;
+      &,
+      img {
+        border-radius: 50%;
+      }
+    }
+    .username {
+      text-align: center;
+      color: #FFFFFF;
+      line-height: 1.5em;
+      margin: 0;
+    }
+  }
+  ion-note {
+    max-width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+.user-info-delivery-addresses {
+  ion-label {
+    p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .zip {
+      float: right;
+    }
+  }
+}
